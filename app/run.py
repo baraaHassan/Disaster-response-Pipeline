@@ -15,22 +15,36 @@ from sqlalchemy import create_engine
 app = Flask(__name__)
 
 def tokenize(text):
+    detected_urls = re.findall(url_regex, text)
+    
+    # Replace the URLs with placeholder
+    for url in detected_urls:
+        text = text.replace(url, "urlplaceholder")
+    
+    # Remove numbers from the text
+    text = re.sub(r'\d+', '', text)
+    
+    # Remove panctuation
+    translator = str.maketrans('', '', string.punctuation)
+    text = text.translate(translator)
+    
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
-
+    
+    # clean tokens of the messages
     clean_tokens = []
     for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+        clean_tok = lemmatizer.lemmatize(tok.lower().strip())
         clean_tokens.append(clean_tok)
 
     return clean_tokens
 
 # load data
-engine = create_engine('sqlite:///../data/YourDatabaseName.db')
-df = pd.read_sql_table('YourTableName', engine)
+engine = create_engine('sqlite:////home/workspace/data/YourDatabaseName.db')
+df = pd.read_sql_table('InsertTableName', engine)
 
 # load model
-model = joblib.load("../models/your_model_name.pkl")
+model = joblib.load("/home/workspace/models/your_model_name.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -42,6 +56,9 @@ def index():
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+    
+    offer_counts = df.groupby('offer').count()['message']
+    offer_names = list(offer_counts.index)
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -61,6 +78,25 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        }
+        ,
+        {
+            'data': [
+                Bar(
+                    x=offer_names,
+                    y=offer_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Offers',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Offer"
                 }
             }
         }
