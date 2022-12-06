@@ -16,7 +16,7 @@ fresh drinking water and also that will miss people who say they're thirsty,but 
 So, supervised Machine Learning-based approaches are going to be a lot more accurate than anyone could do with keyword searching,
 but this is actually a big gap right now in disaster response contexts. It extremly critical to discover new trends and new ways of building
 Machine Learning models that can help us respond to future disasters.
-------------
+
 ### Project Description
 In this project disaster data from [Appen](https://appen.com/) is being analysed to build a model for an API that classifies disaster messages.
 
@@ -25,7 +25,6 @@ The project consists of:
 - Machine Learning Pipeline: The machine learning portion, data us being split into a training set and a test set. Then, a machine learning pipeline is being created that uses NLTK, as well as scikit-learn's Pipeline and GridSearchCV to output a final model that uses the message column to predict classifications for 36 categories (multi-output classification).
 - Flask app: In the last step, the result will bed displayed in a Flask web app.
 
-------------
 ### Project files
 
 ```
@@ -47,7 +46,6 @@ The project consists of:
 
 ```
 
-------------
 - The app folder contains all the files that is needed for the flask app to run.
 - The data folder, contains the raw data in csv files, and the clean dataset that is being analysed and created in the ETL pipeline.
 - The models folder, contains the machine learning pipeline, and the saved model after training.
