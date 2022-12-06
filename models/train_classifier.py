@@ -35,7 +35,7 @@ def load_data(database_filepath):
                     return training data (X), label (Y), and the categories names
     '''
     # load data from database
-    engine = create_engine('sqlite:///data/YourDatabaseName.db')
+    engine = create_engine('sqlite:///'+ database_filepath)
     df = pd.read_sql_table('InsertTableName', engine)
 
     remove_indx = np.array([])
