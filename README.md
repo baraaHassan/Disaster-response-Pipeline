@@ -26,6 +26,7 @@ The project consists of:
 - Flask app: In the last step, the result will bed displayed in a Flask web app.
 
 ### Project files
+'''
 app
 | - template
 | |- master.html # main page of web app
@@ -40,6 +41,7 @@ models
 |- train_classifier.py
 |- classifier.pkl # saved model
 README.md
+'''
 
 - The app folder contains all the files that is needed for the flask app to run.
 - The data folder, contains the raw data in csv files, and the clean dataset that is being analysed and created in the ETL pipeline.
