@@ -39,6 +39,10 @@ def load_data(messages_filepath, categories_filepath):
 
         # convert column from string to numeric
         categories[column] = categories[column].astype("str").astype(int)
+        
+        # convert the labels into binary
+        categories.loc[categories[column]>=1,column] = 1
+        categories.loc[categories[column]<=0,column] = 0
     
     # drop the original categories column from `df`
     df.drop(["categories"], axis=1, inplace=True)
