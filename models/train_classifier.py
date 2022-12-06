@@ -15,7 +15,7 @@ from nltk.stem import WordNetLemmatizer
 from sqlalchemy import create_engine
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.metrics import classification_report
@@ -105,7 +105,15 @@ def build_model():
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
     
-    return pipeline 
+    parameters = {
+        'vect__ngram_range': ((1, 1), (1, 2)),
+        'clf__estimator__n_estimators': [50, 200],
+        'clf__estimator__min_samples_split': [2, 4]
+    }
+
+    cv = GridSearchCV(pipeline, param_grid=parameters)
+    
+    return cv 
     
     
 
@@ -123,7 +131,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
             Returns:
                     The model pipeline.
     '''
-    Y_pred = pipeline.predict(X_test)
+    Y_pred = model.predict(X_test)
     
     for i in range(36):
         print("report of the category",category_names[i],classification_report(Y_test[:,i], Y_pred[:,i]))
